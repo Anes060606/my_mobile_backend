@@ -1,6 +1,4 @@
 import datetime
-import json
-import os
 from flask import Flask, jsonify
 
 app = Flask(__name__)
@@ -8,15 +6,48 @@ app = Flask(__name__)
 
 @app.route('/news.all.get')
 def get_news_all_articles():
-  try:
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    json_path = os.path.join(basedir, 'news_data.json')
-
-    with open(json_path, 'r', encoding='utf-8') as file:
-      data = json.load(file)
-    return jsonify(data)
-  except Exception as e:
-    return jsonify({'error': str(e)}), 500
+  # بيانات الأخبار مدمجة مباشرة لتجنب أي أخطاء في مسار الملفات على السحابة
+  data = [
+      {
+          'id': 1,
+          'title': (
+              'Universities Adopt AI-Powered Learning Platforms for'
+              ' Personalized Education'
+          ),
+          'image_url': 'https://images.unsplash.com/photo-1501504905252-473c47e087f8',
+          'description': (
+              'Major universities across the country are implementing'
+              ' artificial intelligence systems to create personalized'
+              ' learning experiences for students.'
+          ),
+          'category_id': 3,
+      },
+      {
+          'id': 2,
+          'title': (
+              'Study Reveals Benefits of Bilingual Education in Early Childhood'
+          ),
+          'image_url': 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b',
+          'description': (
+              'New research shows that children enrolled in bilingual'
+              ' education programs demonstrate enhanced cognitive flexibility.'
+          ),
+          'category_id': 3,
+      },
+      {
+          'id': 3,
+          'title': (
+              'Government Announces $2 Billion Investment in STEM Education'
+          ),
+          'image_url': 'https://images.unsplash.com/photo-1532094349884-543bc11b234d',
+          'description': (
+              'The Department of Education unveiled a comprehensive funding'
+              ' package aimed at improving science and technology programs.'
+          ),
+          'category_id': 3,
+      },
+  ]
+  return jsonify(data)
 
 
 @app.route('/news.categories.get')
